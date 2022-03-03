@@ -56,17 +56,18 @@ router.post("/register/", async (req, res) => {
 
 router.post("/login/", async (req, res) => {
   //find user against email
-  const findUser = await User.findOne({ email: req.body.email });
+  const foundUser = await User.findOne({ email: req.body.email });
 
-  if (!findUser) {
+  if (!foundUser) {
     res.send("email not found");
   } else {
     // compare passwords
-    const verfied = await bcrypt.compare(req.body.password, findUser.password);
+    const verfied = await bcrypt.compare(req.body.password, foundUser.password);
 
     if (verfied) {
+      //ASSIGN token
       const token = jwt.sign(
-        { _id: findUser._id, iat: Date.now() },
+        { _id: foundUser._id, iat: Date.now() },
         process.env.SECRET
       );
       res.send(token);

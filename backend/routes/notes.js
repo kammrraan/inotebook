@@ -3,11 +3,11 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Notes = require("../models/Notes");
 require("dotenv").config();
-const auth = require('./verifytoken');
+const auth = require("./verifytoken");
 
 // GET request
 
-router.get("/",auth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const result = await Notes.find();
     res.json(result);
